@@ -5,29 +5,16 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.4</version>
+		<version>3.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.revolution</groupId>
 	<artifactId>PaymentService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>PaymentService</name>
-	<description>Demo project for Spring Boot</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+	<description>Manage Payments</description>
 	<properties>
-		<java.version>24</java.version>
+		<java.version>23</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
