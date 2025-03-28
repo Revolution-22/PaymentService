@@ -9,15 +9,14 @@ class TestPaymentRepository implements PaymentRepository {
 
     @Override
     PaymentDto save(PaymentDto paymentDto) {
-        long id = paymentDto.id() == null ? database.size() : paymentDto.id()
-        PaymentDto paymentDtoWithId = new PaymentDto(id, paymentDto.orderId(), paymentDto.receiverId(), paymentDto.status())
-        database.put(id, paymentDtoWithId)
+        long transactionId = paymentDto.transactionId() == null ? database.size() : paymentDto.transactionId()
+        PaymentDto paymentDtoWithId = new PaymentDto(transactionId, paymentDto.orderId(), paymentDto.receiverId(), paymentDto.status())
+        database.put(transactionId, paymentDtoWithId)
+        paymentDtoWithId
     }
 
     @Override
-    Optional<PaymentDto> findByOrderIdAndReceiverId(long orderId, long receiverId) {
-        database.values().stream()
-            .filter {it.receiverId() == receiverId && it.orderId() == orderId}
-            .findFirst()
+    Optional<PaymentDto> findByTransactionId(long transactionId) {
+        Optional.ofNullable(database.get(transactionId))
     }
 }

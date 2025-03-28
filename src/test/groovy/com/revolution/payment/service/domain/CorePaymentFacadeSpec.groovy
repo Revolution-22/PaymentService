@@ -28,9 +28,9 @@ class CorePaymentFacadeSpec extends Specification {
 
     def "should process payment as success" () {
         given: "Generate link and create payment"
-            paymentFacade.generatePaymentLink(new PaymentRequest(1L, 1L))
+            paymentFacade.generatePaymentLink(new PaymentRequest(1L, BigDecimal.ONE, 1L))
         when: "Handle payment with success status"
-            PaymentDto paymentDto = paymentFacade.handlePayment("1;1;1;2")
+            PaymentDto paymentDto = paymentFacade.handlePayment("0;1;1;2")
         then: "Check if data is correct"
             paymentDto.orderId() == 1L
             paymentDto.receiverId() == 1L
@@ -39,9 +39,9 @@ class CorePaymentFacadeSpec extends Specification {
 
     def "should process payment as failed" () {
         given: "Generate link and create payment"
-            paymentFacade.generatePaymentLink(new PaymentRequest(1L, 1L))
+            paymentFacade.generatePaymentLink(new PaymentRequest(1L, BigDecimal.ONE, 1L))
         when: "Handle payment with success status"
-            PaymentDto paymentDto = paymentFacade.handlePayment("1;1;1;3")
+            PaymentDto paymentDto = paymentFacade.handlePayment("0;1;1;3")
         then: "Check if data is correct"
             paymentDto.orderId() == 1L
             paymentDto.receiverId() == 1L

@@ -8,5 +8,5 @@ public interface PaymentRepository {
 
     PaymentDto save(PaymentDto paymentDto);
 
-    Optional<PaymentDto> findByOrderIdAndReceiverId(long orderId, long receiverId);
+    Optional<PaymentDto> findByTransactionId(long transactionId);
 }

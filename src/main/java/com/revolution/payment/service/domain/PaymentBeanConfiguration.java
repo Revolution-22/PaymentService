@@ -13,6 +13,6 @@ public class PaymentBeanConfiguration {
     }
 
     public PaymentService paymentService(PaymentRepository paymentRepository) {
-        return new CorePaymentService(paymentRepository);
+        return new CorePaymentService(paymentRepository, new PaymentMapper());
     }
 }

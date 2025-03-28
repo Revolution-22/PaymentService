@@ -2,18 +2,19 @@ package com.revolution.payment.service.domain.adapters
 
 import com.revolution.payment.service.api.dto.PaymentDto
 import com.revolution.payment.service.api.port.ProviderService
+import com.revolution.payment.service.api.request.PaymentRequest
 import com.revolution.payment.service.api.response.LinkResponse
 import com.revolution.payment.service.domain.Constants
 
 class TestProviderService implements ProviderService, Constants {
 
     @Override
-    LinkResponse generatePaymentLink(long orderId, long receiverId) {
+    LinkResponse generatePaymentLink(PaymentRequest request) {
         new LinkResponse(LINK
                 .concat("?orderId=")
-                .concat(orderId)
+                .concat(request.orderId() as String)
                 .concat("&recevierId=")
-                .concat(receiverId)
+                .concat(request.receiverId() as String)
         )
     }
 
