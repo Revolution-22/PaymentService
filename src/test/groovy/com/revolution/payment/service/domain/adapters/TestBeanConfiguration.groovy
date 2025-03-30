@@ -12,7 +12,7 @@ class TestBeanConfiguration {
     private final PaymentRepository paymentRepository = new TestPaymentRepository()
 
     PaymentFacade paymentFacade() {
-        return paymentBeanConfiguration.paymentFacade(paymentService(), new TestBrokerService(), new TestProviderService())
+        return paymentBeanConfiguration.paymentFacade(paymentService(), new TestBrokerService(), new TestProviderService(), new TestBankService())
     }
 
     private PaymentService paymentService() {

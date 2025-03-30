@@ -4,11 +4,12 @@ import com.revolution.payment.service.api.dto.PaymentDto
 import com.revolution.payment.service.api.exception.PaymentNotFoundException
 import com.revolution.payment.service.api.port.PaymentFacade
 import com.revolution.payment.service.api.request.PaymentRequest
+import com.revolution.payment.service.api.request.PayoutRequest
 import com.revolution.payment.service.domain.adapters.TestBeanConfiguration
 import spock.lang.Specification
 import spock.lang.Subject
 
-class CorePaymentFacadeSpec extends Specification {
+class CorePaymentFacadeSpec extends Specification implements Constants {
 
     private TestBeanConfiguration configuration = new TestBeanConfiguration()
 
@@ -46,5 +47,12 @@ class CorePaymentFacadeSpec extends Specification {
             paymentDto.orderId() == 1L
             paymentDto.receiverId() == 1L
             paymentDto.status() == 3
+    }
+
+    def "should mock payout" () {
+        when: "Call mock payout"
+            paymentFacade.makePayout(new PayoutRequest(BANK_ACCOUNT_NUMBER, BigDecimal.ONE))
+        then: "Nothing wrong happen"
+            notThrown(Exception)
     }
 }
