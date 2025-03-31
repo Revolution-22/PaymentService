@@ -26,15 +26,16 @@ class CorePaymentFacade implements PaymentFacade {
     @Override
     public LinkResponse generatePaymentLink(PaymentRequest request) {
         LinkResponse response = providerService.generatePaymentLink(request);
-        PaymentDto paymentDto = paymentService.initPayment(request);
-        brokerService.publishMessage(Topics.PAYMENT_TOPIC, new PaymentEvent(paymentDto.orderId(), paymentDto.receiverId(), paymentDto.status()));
+        paymentService.initPayment(request);
         return response;
     }
 
     @Override
     public PaymentDto handlePayment(String payload) {
         PaymentDto paymentDto = providerService.handlePayment(payload);
-        return paymentService.markStatus(new PaymentStatusRequest(paymentDto.transactionId(), paymentDto.status()));
+        PaymentDto savedPaymentDto = paymentService.markStatus(new PaymentStatusRequest(paymentDto.transactionId(), paymentDto.status()));
+        brokerService.publishMessage(Topics.PAYMENT_TOPIC, new PaymentEvent(savedPaymentDto.orderId(), savedPaymentDto.receiverId(), savedPaymentDto.status()));
+        return savedPaymentDto;
     }
 
     @Override
