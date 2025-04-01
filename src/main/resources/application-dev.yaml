@@ -1,0 +1,35 @@
+server:
+  port: 0
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "http://localhost:8761/eureka/"
+
+spring:
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    bootstrap-servers: "PLAINTEXT://localhost:9092"
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  datasource:
+    url: "jdbc:postgresql://localhost:5435/payment-service"
+    username: "postgres"
+    password: "12345"
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+stripe:
+  api-key: sk_test_51R9BAgFWlcfq3gcmcQ7alHTDQOY7JiWH4mDtOpRQ5iYQjh1Bo1NluJRekK53MsydnheY3YmlHH4Kg2w8ymjjQ2BC00pTWLA2yD
+  redirect-url: "http://localhost:4200/dashboard"
