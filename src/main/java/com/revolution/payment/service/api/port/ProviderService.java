@@ -9,5 +9,5 @@ public interface ProviderService {
 
     LinkResponse generatePaymentLink(PaymentCommand command);
 
-    PaymentDto handlePayment(String payload);
+    PaymentDto handlePayment(String payload, String sigHeader);
 }

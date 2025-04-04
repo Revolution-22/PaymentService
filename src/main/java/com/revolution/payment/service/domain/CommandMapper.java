@@ -8,8 +8,8 @@ import com.revolution.payment.service.api.request.PaymentRequest;
 
 class CommandMapper {
 
-    PaymentCommand toCommand(OrderResponse response) {
-        return new PaymentCommand(response.orderId(), response.receiverId(), response.items().stream()
+    PaymentCommand toCommand(OrderResponse response, long transactionId) {
+        return new PaymentCommand(transactionId, response.orderId(), response.receiverId(), response.items().stream()
                 .map(item -> new LineItemCommand(item.name(), item.price())).toList());
     }
 

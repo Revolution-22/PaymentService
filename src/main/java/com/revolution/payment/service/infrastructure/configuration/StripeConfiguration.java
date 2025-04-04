@@ -13,4 +13,5 @@ public class StripeConfiguration {
 
     private String apiKey;
     private String redirectUrl;
+    private String secret;
 }

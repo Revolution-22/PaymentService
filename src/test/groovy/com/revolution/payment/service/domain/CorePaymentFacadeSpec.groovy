@@ -22,7 +22,7 @@ class CorePaymentFacadeSpec extends Specification implements Constants {
 
     def "should not handle payment" () {
         when: "Try handle payment"
-            paymentFacade.handlePayment("1;1;1;2")
+            paymentFacade.handlePayment("1;1;1;2", SIG_HEADER)
         then: "Check if exception thrown"
             thrown(PaymentNotFoundException)
     }
@@ -31,7 +31,7 @@ class CorePaymentFacadeSpec extends Specification implements Constants {
         given: "Generate link and create payment"
             paymentFacade.generatePaymentLink(new PaymentRequest(1L, 1L))
         when: "Handle payment with success status"
-            PaymentDto paymentDto = paymentFacade.handlePayment("0;1;1;2")
+            PaymentDto paymentDto = paymentFacade.handlePayment("0;1;1;2", SIG_HEADER)
         then: "Check if data is correct"
             paymentDto.orderId() == 1L
             paymentDto.receiverId() == 1L
@@ -42,7 +42,7 @@ class CorePaymentFacadeSpec extends Specification implements Constants {
         given: "Generate link and create payment"
             paymentFacade.generatePaymentLink(new PaymentRequest(1L, 1L))
         when: "Handle payment with success status"
-            PaymentDto paymentDto = paymentFacade.handlePayment("0;1;1;3")
+            PaymentDto paymentDto = paymentFacade.handlePayment("0;1;1;3", SIG_HEADER)
         then: "Check if data is correct"
             paymentDto.orderId() == 1L
             paymentDto.receiverId() == 1L
