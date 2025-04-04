@@ -1,11 +1,12 @@
 package com.revolution.payment.service.infrastructure.adapter;
 
+import com.revolution.payment.service.api.command.PaymentCommand;
 import com.revolution.payment.service.api.dto.PaymentDto;
 import com.revolution.payment.service.api.port.ProviderService;
-import com.revolution.payment.service.api.request.PaymentRequest;
 import com.revolution.payment.service.api.response.LinkResponse;
 import com.revolution.payment.service.infrastructure.configuration.StripeConfiguration;
 import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentLink;
 import com.stripe.model.Price;
 import com.stripe.param.PaymentLinkCreateParams;
@@ -20,22 +21,23 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProviderServiceAdapter implements ProviderService {
 
-    private static final String PRODUCT_NAME = "Oplata za zakupy na stronie Revolution-22";
+    private static final String CURRENCY = "PLN";
 
     private final StripeConfiguration configuration;
 
     @Override
-    public LinkResponse generatePaymentLink(PaymentRequest request) {
+    public LinkResponse generatePaymentLink(PaymentCommand command) {
         Stripe.apiKey = configuration.getApiKey();
 
         try {
-            Price price = createPrice(request.amount().doubleValue(), "PLN");
             PaymentLinkCreateParams params = PaymentLinkCreateParams.builder()
-                    .addLineItem(
-                            PaymentLinkCreateParams.LineItem.builder()
-                                    .setPrice(price.getId())
-                                    .setQuantity(1L)
-                                    .build())
+                    .addAllLineItem(
+                            command.items().stream()
+                                            .map(item -> PaymentLinkCreateParams.LineItem.builder()
+                                                    .setPrice(createPrice(item.price().doubleValue(), CURRENCY, item.name()).getId())
+                                                    .setQuantity(1L)
+                                                    .build()).toList()
+                            )
                     .setAfterCompletion(
                             PaymentLinkCreateParams.AfterCompletion.builder()
                                     .setType(PaymentLinkCreateParams.AfterCompletion.Type.REDIRECT)
@@ -45,8 +47,8 @@ public class ProviderServiceAdapter implements ProviderService {
                                                     .build())
                                     .build())
                     .putAllMetadata(Map.of(
-                            "order_id", String.valueOf(request.orderId()),
-                            "receiver_id", String.valueOf(request.receiverId())
+                            "order_id", String.valueOf(command.orderId()),
+                            "receiver_id", String.valueOf(command.receiverId())
                     ))
                     .build();
 
@@ -59,16 +61,20 @@ public class ProviderServiceAdapter implements ProviderService {
         return new LinkResponse("");
     }
 
-    private Price createPrice(Double amount, String currency) throws Exception {
+    private Price createPrice(Double amount, String currency, String name) {
         PriceCreateParams params = PriceCreateParams.builder()
                 .setCurrency(currency)
                 .setProductData(PriceCreateParams.ProductData.builder()
-                        .setName(PRODUCT_NAME)
+                        .setName(name)
                         .build())
                 .setUnitAmount(Math.round(amount * 100))
                 .build();
 
-        return Price.create(params);
+        try {
+            return Price.create(params);
+        } catch (StripeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
