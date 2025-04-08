@@ -51,7 +51,7 @@ class CorePaymentFacadeSpec extends Specification implements Constants {
 
     def "should mock payout" () {
         when: "Call mock payout"
-            paymentFacade.makePayout(new PayoutRequest(BANK_ACCOUNT_NUMBER, BigDecimal.ONE))
+            paymentFacade.notifyPayout(new PayoutRequest(BANK_ACCOUNT_NUMBER, 1L, BigDecimal.ONE))
         then: "Nothing wrong happen"
             notThrown(Exception)
     }

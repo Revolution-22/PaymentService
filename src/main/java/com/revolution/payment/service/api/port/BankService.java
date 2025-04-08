@@ -5,5 +5,5 @@ import com.revolution.payment.service.api.request.PayoutRequest;
 
 public interface BankService {
 
-    PayoutDto makePayout(PayoutRequest request);
+    PayoutDto notifyPayout(PayoutRequest request);
 }

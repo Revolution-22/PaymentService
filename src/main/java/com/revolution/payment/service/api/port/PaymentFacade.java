@@ -12,5 +12,5 @@ public interface PaymentFacade {
 
     PaymentDto handlePayment(String payload, String sigHeader);
 
-    PayoutDto makePayout(PayoutRequest request);
+    PayoutDto notifyPayout(PayoutRequest request);
 }

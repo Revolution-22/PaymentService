@@ -1,6 +1,5 @@
 package com.revolution.payment.service.domain;
 
-import com.revolution.common.command.OrderCommand;
 import com.revolution.common.event.PaymentEvent;
 import com.revolution.common.event.Topics;
 import com.revolution.common.response.OrderResponse;
@@ -44,7 +43,7 @@ class CorePaymentFacade implements PaymentFacade {
     }
 
     @Override
-    public PayoutDto makePayout(PayoutRequest request) {
-        return bankService.makePayout(request);
+    public PayoutDto notifyPayout(PayoutRequest request) {
+        return bankService.notifyPayout(request);
     }
 }

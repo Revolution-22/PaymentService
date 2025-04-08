@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public record PayoutRequest(
         String bankAccountNumber,
+        long orderId,
         BigDecimal amount
 ) {
 }

@@ -7,7 +7,7 @@ import com.revolution.payment.service.api.request.PayoutRequest
 class TestBankService implements BankService {
 
     @Override
-    PayoutDto makePayout(PayoutRequest request) {
+    PayoutDto notifyPayout(PayoutRequest request) {
         new PayoutDto(request.bankAccountNumber(), 1)
     }
 }

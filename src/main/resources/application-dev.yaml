@@ -30,7 +30,19 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
 stripe:
   api-key: sk_test_51R9BAgFWlcfq3gcmcQ7alHTDQOY7JiWH4mDtOpRQ5iYQjh1Bo1NluJRekK53MsydnheY3YmlHH4Kg2w8ymjjQ2BC00pTWLA2yD
   redirect-url: "http://localhost:4200/dashboard"
   secret: "whsec_uKlZHhJvJ9SaNbuVmGOvjwR231Uk4bjT"
+
+email:
+  admin: kwolny31@gmail.com
+  host: smtp.gmail.com
+  port: 587
+  username: user
+  password: password
+  transport-protocol: smtp
+  smtp-auth: true
+  smtp-starttls: true
+  from: Revolution-22
