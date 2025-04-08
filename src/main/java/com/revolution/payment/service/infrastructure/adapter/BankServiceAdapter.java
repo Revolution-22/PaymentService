@@ -24,8 +24,8 @@ public class BankServiceAdapter implements BankService {
                 SUBJECT,
                 """
                         Zlecono wyplate: \n
-                        ${request}
-                        """
+                        %s
+                        """.formatted(request)
         );
         return new PayoutDto(request.bankAccountNumber(), 1);
     }
