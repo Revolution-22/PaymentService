@@ -19,10 +19,10 @@ import java.util.Properties;
 class EmailServiceAdapter implements EmailService {
 
     private final EmailConfiguration configuration;
+    private final JavaMailSender emailSender;
 
     @Override
     public void sendEmail(String recipient, String subject, String body) {
-        JavaMailSenderImpl emailSender = initJavaMailSender();
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(configuration.getFrom());
         message.setTo(recipient);
@@ -31,21 +31,4 @@ class EmailServiceAdapter implements EmailService {
         emailSender.send(message);
     }
 
-
-    private JavaMailSenderImpl initJavaMailSender() {
-
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(configuration.getHost());
-        mailSender.setPort(configuration.getPort());
-
-        mailSender.setUsername(configuration.getUsername());
-        mailSender.setPassword(configuration.getPassword());
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", configuration.getTransportProtocol());
-        props.put("mail.smtp.auth", configuration.getSmtpAuth());
-        props.put("mail.smtp.starttls.enable", configuration.getSmtpStarttls());
-
-        return mailSender;
-    }
 }

@@ -1,8 +1,10 @@
 package com.revolution.payment.service.api.controller;
 
 import com.revolution.payment.service.api.dto.PaymentDto;
+import com.revolution.payment.service.api.dto.PayoutDto;
 import com.revolution.payment.service.api.port.PaymentFacade;
 import com.revolution.payment.service.api.request.PaymentRequest;
+import com.revolution.payment.service.api.request.PayoutRequest;
 import com.revolution.payment.service.api.response.LinkResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +28,10 @@ class PaymentController {
     @PostMapping("/handlers")
     PaymentDto handlePayment(@RequestBody String payload, HttpServletRequest request) {
         return paymentFacade.handlePayment(payload, request.getHeader("Stripe-Signature"));
+    }
+
+    @PostMapping("/payouts")
+    PayoutDto notifyPayout(@RequestBody PayoutRequest request) {
+        return paymentFacade.notifyPayout(request);
     }
 }
