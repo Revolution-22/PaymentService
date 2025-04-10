@@ -1,6 +1,6 @@
 package com.revolution.payment.service.infrastructure.configuration;
 
-import com.revolution.payment.service.api.port.BankService;
+import com.revolution.payment.service.api.port.AdminService;
 import com.revolution.payment.service.api.port.BrokerService;
 import com.revolution.payment.service.api.port.OrderService;
 import com.revolution.payment.service.api.port.PaymentFacade;
@@ -19,8 +19,8 @@ public class BeanConfiguration {
     private final PaymentBeanConfiguration paymentBeanConfiguration = new PaymentBeanConfiguration();
 
     @Bean
-    PaymentFacade paymentFacade(PaymentService paymentService, BrokerService brokerService, ProviderService providerService, BankService bankService, OrderService orderService) {
-        return paymentBeanConfiguration.paymentFacade(paymentService, brokerService, providerService, bankService, orderService);
+    PaymentFacade paymentFacade(PaymentService paymentService, BrokerService brokerService, ProviderService providerService, AdminService adminService, OrderService orderService) {
+        return paymentBeanConfiguration.paymentFacade(paymentService, brokerService, providerService, adminService, orderService);
     }
 
     @Bean

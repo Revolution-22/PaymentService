@@ -5,7 +5,7 @@ import com.revolution.common.event.Topics;
 import com.revolution.common.response.OrderResponse;
 import com.revolution.payment.service.api.dto.PaymentDto;
 import com.revolution.payment.service.api.dto.PayoutDto;
-import com.revolution.payment.service.api.port.BankService;
+import com.revolution.payment.service.api.port.AdminService;
 import com.revolution.payment.service.api.port.BrokerService;
 import com.revolution.payment.service.api.port.OrderService;
 import com.revolution.payment.service.api.port.PaymentFacade;
@@ -23,7 +23,7 @@ class CorePaymentFacade implements PaymentFacade {
     private final PaymentService paymentService;
     private final BrokerService brokerService;
     private final ProviderService providerService;
-    private final BankService bankService;
+    private final AdminService adminService;
     private final OrderService orderService;
     private final CommandMapper commandMapper;
 
@@ -44,6 +44,6 @@ class CorePaymentFacade implements PaymentFacade {
 
     @Override
     public PayoutDto notifyPayout(PayoutRequest request) {
-        return bankService.notifyPayout(request);
+        return adminService.notifyPayout(request);
     }
 }
