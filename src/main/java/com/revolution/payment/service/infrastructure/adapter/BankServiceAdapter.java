@@ -1,10 +1,11 @@
 package com.revolution.payment.service.infrastructure.adapter;
 
+import com.revolution.common.command.PayoutCommand;
+import com.revolution.common.event.Topics;
 import com.revolution.payment.service.api.dto.PayoutDto;
 import com.revolution.payment.service.api.port.BankService;
-import com.revolution.payment.service.api.port.EmailService;
+import com.revolution.payment.service.api.port.BrokerService;
 import com.revolution.payment.service.api.request.PayoutRequest;
-import com.revolution.payment.service.infrastructure.configuration.EmailConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,19 +15,11 @@ public class BankServiceAdapter implements BankService {
 
     private static final String SUBJECT = "Revolution-22 :: Zlecono wyplate!";
 
-    private final EmailService emailService;
-    private final EmailConfiguration emailConfiguration;
+    private final BrokerService brokerService;
 
     @Override
     public PayoutDto notifyPayout(PayoutRequest request) {
-        emailService.sendEmail(
-                emailConfiguration.getAdmin(),
-                SUBJECT,
-                """
-                        Zlecono wyplate: \n
-                        %s
-                        """.formatted(request)
-        );
+        brokerService.publishMessage(Topics.PAYOUT_TOPIC, new PayoutCommand(request.bankAccountNumber(), request.orderId(), request.receiverId(), request.amount()));
         return new PayoutDto(request.bankAccountNumber(), 1);
     }
 }

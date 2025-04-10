@@ -62,7 +62,7 @@
 		<dependency>
 			<groupId>com.github.Revolution-22</groupId>
 			<artifactId>Common</artifactId>
-			<version>757a5a3e2c</version>
+			<version>c22b0fb41f</version>
 		</dependency>
 
 		<dependency>
