@@ -1,1 +1,16 @@
-spring.application.name=PaymentService
+spring:
+  threads:
+    virtual:
+      enabled: true
+  config:
+    import: vault://secret/payment-service
+  cloud:
+    vault:
+      host: vault
+      port: 8200
+      scheme: http
+      token: root
+      kv:
+        enabled: true
+  application:
+    name: payment-service

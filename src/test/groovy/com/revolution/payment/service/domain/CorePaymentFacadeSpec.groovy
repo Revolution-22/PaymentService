@@ -22,16 +22,16 @@ class CorePaymentFacadeSpec extends Specification implements Constants {
 
     def "should not handle payment" () {
         when: "Try handle payment"
-            paymentFacade.handlePayment("1;1;1;2")
+            paymentFacade.handlePayment("1;1;1;2", SIG_HEADER)
         then: "Check if exception thrown"
             thrown(PaymentNotFoundException)
     }
 
     def "should process payment as success" () {
         given: "Generate link and create payment"
-            paymentFacade.generatePaymentLink(new PaymentRequest(1L, BigDecimal.ONE, 1L))
+            paymentFacade.generatePaymentLink(new PaymentRequest(1L, 1L))
         when: "Handle payment with success status"
-            PaymentDto paymentDto = paymentFacade.handlePayment("0;1;1;2")
+            PaymentDto paymentDto = paymentFacade.handlePayment("0;1;1;2", SIG_HEADER)
         then: "Check if data is correct"
             paymentDto.orderId() == 1L
             paymentDto.receiverId() == 1L
@@ -40,9 +40,9 @@ class CorePaymentFacadeSpec extends Specification implements Constants {
 
     def "should process payment as failed" () {
         given: "Generate link and create payment"
-            paymentFacade.generatePaymentLink(new PaymentRequest(1L, BigDecimal.ONE, 1L))
+            paymentFacade.generatePaymentLink(new PaymentRequest(1L, 1L))
         when: "Handle payment with success status"
-            PaymentDto paymentDto = paymentFacade.handlePayment("0;1;1;3")
+            PaymentDto paymentDto = paymentFacade.handlePayment("0;1;1;3", SIG_HEADER)
         then: "Check if data is correct"
             paymentDto.orderId() == 1L
             paymentDto.receiverId() == 1L
@@ -51,7 +51,7 @@ class CorePaymentFacadeSpec extends Specification implements Constants {
 
     def "should mock payout" () {
         when: "Call mock payout"
-            paymentFacade.makePayout(new PayoutRequest(BANK_ACCOUNT_NUMBER, BigDecimal.ONE))
+            paymentFacade.notifyPayout(new PayoutRequest(BANK_ACCOUNT_NUMBER, 1L, 1L, BigDecimal.ONE))
         then: "Nothing wrong happen"
             notThrown(Exception)
     }

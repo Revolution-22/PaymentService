@@ -10,7 +10,7 @@ public interface PaymentFacade {
 
     LinkResponse generatePaymentLink(PaymentRequest request);
 
-    PaymentDto handlePayment(String payload);
+    PaymentDto handlePayment(String payload, String sigHeader);
 
-    PayoutDto makePayout(PayoutRequest request);
+    PayoutDto notifyPayout(PayoutRequest request);
 }
